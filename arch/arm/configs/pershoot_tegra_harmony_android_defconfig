@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
-# Linux kernel version: 2.6.32.13
-# Wed Jan  5 11:52:58 2011
+# Linux kernel version: 2.6.32.18
+# Wed Jan  5 16:58:51 2011
 #
 CONFIG_ARM=y
 CONFIG_SYS_SUPPORTS_APM_EMULATION=y
@@ -507,6 +507,10 @@ CONFIG_WIRELESS_EXT_SYSFS=y
 
 #
 # CFG80211 needs to be enabled for MAC80211
+#
+
+#
+# Some wireless drivers require a rate control algorithm
 #
 # CONFIG_WIMAX is not set
 CONFIG_RFKILL=y
