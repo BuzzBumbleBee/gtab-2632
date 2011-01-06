@@ -1940,30 +1940,28 @@ static void task_tick_fair(struct rq *rq, struct task_struct *curr, int queued)
 }
 
 /*
- * called on fork with the child task as argument from the parent's context
- *  - child not yet on the tasklist
- *  - preemption disabled
+ * Share the fairness runtime between parent and child, thus the
+ * total amount of pressure for CPU stays equal - new tasks
+ * get a chance to run but frequent forkers are not allowed to
+ * monopolize the CPU. Note: the parent runqueue is locked,
+ * the child is not running yet.
  */
-static void task_fork_fair(struct task_struct *p)
+static void task_new_fair(struct rq *rq, struct task_struct *p)
 {
-	struct cfs_rq *cfs_rq = task_cfs_rq(current);
+	struct cfs_rq *cfs_rq = task_cfs_rq(p);
 	struct sched_entity *se = &p->se, *curr = cfs_rq->curr;
 	int this_cpu = smp_processor_id();
-	struct rq *rq = this_rq();
-	unsigned long flags;
 
-	spin_lock_irqsave(&rq->lock, flags);
-
-	if (unlikely(task_cpu(p) != this_cpu))
-		__set_task_cpu(p, this_cpu);
+	sched_info_queued(p);
 
 	update_curr(cfs_rq);
-
 	if (curr)
 		se->vruntime = curr->vruntime;
 	place_entity(cfs_rq, se, 1);
 
-	if (sysctl_sched_child_runs_first && curr && entity_before(curr, se)) {
+	/* 'curr' will be NULL if the child belongs to a different group */
+	if (sysctl_sched_child_runs_first && this_cpu == task_cpu(p) &&
+			curr && entity_before(curr, se)) {
 		/*
 		 * Upon rescheduling, sched_class::put_prev_task() will place
 		 * 'current' within the tree based on its new key value.
@@ -1972,7 +1970,7 @@ static void task_fork_fair(struct task_struct *p)
 		resched_task(rq->curr);
 	}
 
-	spin_unlock_irqrestore(&rq->lock, flags);
+	enqueue_task_fair(rq, p, 0);
 }
 
 /*
@@ -2078,7 +2076,7 @@ static const struct sched_class fair_sched_class = {
 
 	.set_curr_task          = set_curr_task_fair,
 	.task_tick		= task_tick_fair,
-	.task_fork		= task_fork_fair,
+	.task_new		= task_new_fair,
 
 	.prio_changed		= prio_changed_fair,
 	.switched_to		= switched_to_fair,

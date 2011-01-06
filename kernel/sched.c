@@ -1822,20 +1822,6 @@ static void cfs_rq_set_shares(struct cfs_rq *cfs_rq, unsigned long shares)
 static void calc_load_account_active(struct rq *this_rq);
 static void update_sysctl(void);
 
-static inline void __set_task_cpu(struct task_struct *p, unsigned int cpu)
-{
-	set_task_rq(p, cpu);
-#ifdef CONFIG_SMP
-	/*
-	 * After ->cpu is set up to a new value, task_rq_lock(p, ...) can be
-	 * successfuly executed on another CPU. We must ensure that updates of
-	 * per-task data have been completed by this moment.
-	 */
-	smp_wmb();
-	task_thread_info(p)->cpu = cpu;
-#endif
-}
-
 #include "sched_stats.h"
 #include "sched_idletask.c"
 #include "sched_fair.c"
@@ -1990,6 +1976,20 @@ static void deactivate_task(struct rq *rq, struct task_struct *p, int sleep)
 inline int task_curr(const struct task_struct *p)
 {
 	return cpu_curr(task_cpu(p)) == p;
+}
+
+static inline void __set_task_cpu(struct task_struct *p, unsigned int cpu)
+{
+	set_task_rq(p, cpu);
+#ifdef CONFIG_SMP
+	/*
+	 * After ->cpu is set up to a new value, task_rq_lock(p, ...) can be
+	 * successfuly executed on another CPU. We must ensure that updates of
+	 * per-task data have been completed by this moment.
+	 */
+	smp_wmb();
+	task_thread_info(p)->cpu = cpu;
+#endif
 }
 
 static inline void check_class_changed(struct rq *rq, struct task_struct *p,
@@ -2668,9 +2668,6 @@ void sched_fork(struct task_struct *p, int clone_flags)
 	if (!rt_prio(p->prio))
 		p->sched_class = &fair_sched_class;
 
-	if (p->sched_class->task_fork)
-		p->sched_class->task_fork(p);
-
 #ifdef CONFIG_SMP
 	cpu = select_task_rq(p, SD_BALANCE_FORK, 0);
 #endif
@@ -2708,7 +2705,17 @@ void wake_up_new_task(struct task_struct *p, unsigned long clone_flags)
 	BUG_ON(p->state != TASK_WAKING);
 	p->state = TASK_RUNNING;
 	update_rq_clock(rq);
-	activate_task(rq, p, 0);
+
+	if (!p->sched_class->task_new || !current->se.on_rq) {
+		activate_task(rq, p, 0);
+	} else {
+		/*
+		 * Let the scheduling class do new task startup
+		 * management (if any):
+		 */
+		p->sched_class->task_new(rq, p);
+		inc_nr_running(rq);
+	}
 	trace_sched_wakeup_new(rq, p, 1);
 	check_preempt_curr(rq, p, WF_FORK);
 #ifdef CONFIG_SMP
