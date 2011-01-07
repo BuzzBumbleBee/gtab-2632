@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # Linux kernel version: 2.6.32.27
-# Fri Jan  7 01:43:46 2011
+# Fri Jan  7 02:00:33 2011
 #
 CONFIG_ARM=y
 CONFIG_SYS_SUPPORTS_APM_EMULATION=y
@@ -718,6 +718,7 @@ CONFIG_MD=y
 CONFIG_BLK_DEV_DM=y
 # CONFIG_DM_DEBUG is not set
 CONFIG_DM_CRYPT=y
+CONFIG_DM_CRYPT_GLOBAL_WORKQUEUES=y
 # CONFIG_DM_SNAPSHOT is not set
 # CONFIG_DM_MIRROR is not set
 # CONFIG_DM_ZERO is not set
