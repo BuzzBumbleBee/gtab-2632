@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # Linux kernel version: 2.6.32.27
-# Fri Jan  7 01:26:14 2011
+# Fri Jan  7 01:43:46 2011
 #
 CONFIG_ARM=y
 CONFIG_SYS_SUPPORTS_APM_EMULATION=y
@@ -638,7 +638,16 @@ CONFIG_MTD_NAND=y
 #
 # CONFIG_MTD_UBI is not set
 # CONFIG_PARPORT is not set
-# CONFIG_BLK_DEV is not set
+CONFIG_BLK_DEV=y
+# CONFIG_BLK_DEV_COW_COMMON is not set
+CONFIG_BLK_DEV_LOOP=y
+# CONFIG_BLK_DEV_CRYPTOLOOP is not set
+# CONFIG_BLK_DEV_NBD is not set
+# CONFIG_BLK_DEV_UB is not set
+# CONFIG_BLK_DEV_RAM is not set
+# CONFIG_CDROM_PKTCDVD is not set
+# CONFIG_ATA_OVER_ETH is not set
+# CONFIG_MG_DISK is not set
 CONFIG_MISC_DEVICES=y
 # CONFIG_ANDROID_PMEM is not set
 # CONFIG_ICS932S401 is not set
@@ -704,7 +713,17 @@ CONFIG_SCSI_LOWLEVEL=y
 # CONFIG_SCSI_DH is not set
 # CONFIG_SCSI_OSD_INITIATOR is not set
 # CONFIG_ATA is not set
-# CONFIG_MD is not set
+CONFIG_MD=y
+# CONFIG_BLK_DEV_MD is not set
+CONFIG_BLK_DEV_DM=y
+# CONFIG_DM_DEBUG is not set
+CONFIG_DM_CRYPT=y
+# CONFIG_DM_SNAPSHOT is not set
+# CONFIG_DM_MIRROR is not set
+# CONFIG_DM_ZERO is not set
+# CONFIG_DM_MULTIPATH is not set
+# CONFIG_DM_DELAY is not set
+# CONFIG_DM_UEVENT is not set
 CONFIG_NETDEVICES=y
 # CONFIG_DUMMY is not set
 # CONFIG_BONDING is not set
@@ -1601,6 +1620,7 @@ CONFIG_ANDROID_TIMED_GPIO=y
 #
 # Camera Sensor Selection
 #
+# CONFIG_DST is not set
 # CONFIG_POHMELFS is not set
 # CONFIG_PLAN9AUTH is not set
 # CONFIG_VT6656 is not set
