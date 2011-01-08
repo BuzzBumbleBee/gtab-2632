@@ -54,7 +54,7 @@ static const NvU32 s_NvOdmPinMuxConfig_Twc[] = {
 
 static const NvU32 s_NvOdmPinMuxConfig_I2c[] = {
     NvOdmI2cPinMap_Config1,
-    NvOdmI2cPinMap_Config1,
+    NvOdmI2cPinMap_Multiplexed,
     NvOdmI2cPinMap_Config1
 };
 
