@@ -398,12 +398,6 @@ static const NvOdmIoAddress s_Tmon0Addresses[] =
     { NvOdmIoModule_Tsense, NvOdmTmonZoneID_Ambient, ADT7461ChannelID_Local, 0 }, /* TSENSOR */
 };
 
-// USB3 VBus voltage rail
-static const NvOdmIoAddress s_ffaVddUsb3VBusAddresses[] =
-{
-        { NvOdmIoModule_Gpio, (NvU32)'d'-'a', 0x03, 0 }, /* Gpio port D and Pin 3 */
-};
-
 // Bluetooth
 static const NvOdmIoAddress s_p1162BluetoothAddresses[] =
 {
