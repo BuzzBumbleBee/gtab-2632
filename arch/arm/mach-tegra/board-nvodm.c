@@ -1414,7 +1414,7 @@ static void tegra_setup_spi(void) { }
 #endif
 
 #ifdef CONFIG_I2C_TEGRA
-#if defined(CONFIG_TEGRA_ODM_VENTANA) || defined(CONFIG_TEGRA_ODM_HARMONY)
+#ifdef CONFIG_TEGRA_ODM_VENTANA
 static struct tegra_i2c_plat_parms tegra_i2c_platform[] = {
 	[0] = {
 		.adapter_nr = 0,
@@ -1569,7 +1569,7 @@ static noinline void __init tegra_setup_i2c(void)
 		if (!mux)
 			continue;
 
-#if !defined(CONFIG_TEGRA_ODM_VENTANA) || !defined(CONFIG_TEGRA_ODM_HARMONY)
+#ifndef CONFIG_TEGRA_ODM_VENTANA
 		if (mux == NVODM_QUERY_PINMAP_MULTIPLEXED) {
 			pr_err("%s: unable to register %s.%d (multiplexed)\n",
 			       __func__, dev->name, dev->id);
