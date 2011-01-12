@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # Linux kernel version: 2.6.32.28
-# Mon Jan 10 20:37:15 2011
+# Tue Jan 11 19:19:57 2011
 #
 CONFIG_ARM=y
 CONFIG_SYS_SUPPORTS_APM_EMULATION=y
@@ -1014,9 +1014,9 @@ CONFIG_PPP_ASYNC=y
 CONFIG_PPP_SYNC_TTY=y
 CONFIG_PPP_DEFLATE=y
 CONFIG_PPP_BSDCOMP=y
-# CONFIG_PPP_MPPE is not set
-# CONFIG_PPPOE is not set
-# CONFIG_PPPOL2TP is not set
+CONFIG_PPP_MPPE=y
+CONFIG_PPPOE=y
+CONFIG_PPPOL2TP=y
 # CONFIG_PPPOLAC is not set
 # CONFIG_PPPOPNS is not set
 # CONFIG_SLIP is not set
